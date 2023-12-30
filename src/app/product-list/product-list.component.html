@@ -1,0 +1,38 @@
+<main>
+  <product-filters/>
+
+  <div class="product-list">
+    <h2>Product list</h2>🛒
+    <div class="list">
+      @for (product of $products(); track product.id) {
+        <div class="card"
+             [class.selected]="product.id === $selectedProductId()"
+             (click)="showProduct(product)">
+          @if (product.id === $selectedProductId()) {
+            <div class="close"
+                 (click)="hideProduct($event)">❌
+            </div>
+          }
+          <div class="card-image">
+            <img class="product-img"
+                 [src]="product.image">
+          </div>
+          <div class="content">
+            <div class="buy-button"
+                 (click)="addToShoppingCard($event, product)">🛍️
+            </div>
+            <p class="card-title"
+               [title]="product.title">{{ product.title }}</p>
+            <div class="horizontal space-between">
+              <div class="rating">{{ product.rating.rate }} / 5 ⭐</div>
+              <div class="price">{{ product.price }}€</div>
+            </div>
+            @if (product.id === $selectedProductId()) {
+              <div class="description">{{ product.description }}</div>
+            }
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</main>

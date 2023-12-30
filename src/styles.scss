@@ -1,1 +1,52 @@
-/* You can add global styles to this file, and also import other style files */
+html {
+  font-family: 'Noto Sans', sans-serif;
+  overflow: hidden;
+}
+
+body {
+  font-size: 12px;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+  user-select: none;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+  border-radius: 4px;
+}
+
+
+.horizontal {
+  display: flex;
+}
+
+.space-between {
+  justify-content: space-between;
+}
+
+label {
+  font-weight: bolder;
+  font-size: 14px;
+  line-height: 2rem;
+}
+
+h2 {
+  border-bottom: solid 1px #EEEEEE;
+  padding-bottom: 1rem;
+}

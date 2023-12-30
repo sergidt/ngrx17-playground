@@ -1,0 +1,38 @@
+$element-width: 150px;
+
+:host {
+  min-width: 250px;
+  padding-left: 20px;
+  box-sizing: border-box;
+}
+
+.filter {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 2rem;
+}
+
+input {
+  width: $element-width;
+}
+
+.categories {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+
+  .category {
+    cursor: pointer;
+    border-radius: 20px;
+    padding: .2rem;
+    background-color: lightgrey;
+    text-align: center;
+    user-select: none;
+    width: $element-width;
+
+    &.selected {
+      background-color: dodgerblue;
+      color: white;
+    }
+  }
+}

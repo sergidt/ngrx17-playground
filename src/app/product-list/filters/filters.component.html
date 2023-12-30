@@ -1,0 +1,42 @@
+<h2>Filters</h2>
+<div class="filter">
+  <label for="stars">Stars: {{ starsInput.valueAsNumber }}</label>
+  <input id="stars"
+         #starsInput
+         type="range"
+         min="0"
+         max="5"
+         (change)="productsStore.applyStarsFilter(starsInput.valueAsNumber)"
+         [ngModel]="productsStore.filter.stars()"
+         value="0"
+         class="slider"
+         list="values">
+
+  <datalist id="values">
+    <option value="0"
+            label="0"></option>
+    <option value="1"
+            label="1"></option>
+    <option value="2"
+            label="2"></option>
+    <option value="3"
+            label="3"></option>
+    <option value="4"
+            label="4"></option>
+    <option value="5"
+            label="5"></option>
+  </datalist>
+</div>
+
+<div class="filter">
+  <label for="stars">Categories</label>
+
+  <div class="categories">
+    @for (category of $categories(); track category) {
+      <div class="category"
+           [class.selected]="productsStore.isFilterCategorySelected(category)"
+           (click)="productsStore.applyCategoryFilter(category)">{{ category }}
+      </div>
+    }
+  </div>
+</div>
