@@ -1,0 +1,29 @@
+:host {
+  display: block;
+  height: 100vh;
+
+  app-bar {
+    top: 0;
+  }
+
+  main {
+    top: 200px;
+    bottom: 40px;
+    height: calc(100% - 240px);
+    width: 100vw;
+    display: block;
+    position: absolute;
+  }
+
+  footer {
+    position: absolute;
+    bottom: 0;
+    height: 40px;
+    background-color: #412945;
+    display: flex;
+    width: 100%;
+    align-items: center;
+    color: white;
+    justify-content: space-evenly;
+  }
+}

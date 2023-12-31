@@ -1,18 +1,20 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
 import { Product } from '../definitions';
 import { ProductsStore } from '../products.store';
-import { FiltersComponent } from './filters/filters.component';
 
 @Component({
-    selector: 'app-product-list',
+    selector: 'shopping-card',
     standalone: true,
-    imports: [CommonModule, FiltersComponent],
-    templateUrl: './product-list.component.html',
-    styleUrl: './product-list.component.scss',
+    imports: [CommonModule],
+    templateUrl: './shopping-card.component.html',
+    styleUrl: './shopping-card.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ProductListComponent {
+export class ShoppingCardComponent implements OnInit {
+    ngOnInit() {
+        console.log(1111);
+    }
 
     $products = inject(ProductsStore).filteredProducts;
 
