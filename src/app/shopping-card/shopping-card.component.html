@@ -2,28 +2,36 @@
   <div class="button"
        (click)="goToProductList()">Continue Shopping
   </div>
-  <div class="product-list">
-    <div class="list">
-      @for (product of $products(); track product.id) {
-        <div class="item">
-          <div class="image">
-            <img [src]="product.image">
-          </div>
-          <div class="content">
-            <p class="title"
-               [title]="product.title">{{ product.title }}</p>
+  @if (!shoppingCard.isEmpty()) {
+    <div class="product-list">
+      <div class="list">
+        @for (product of $products(); track product.id) {
+          <div class="item">
+            <div class="image">
+              <img [src]="product.image">
+            </div>
+            <div class="content">
+              <p class="title"
+                 [title]="product.title">{{ product.title }}</p>
 
-            <p>{{ product.description }}</p>
+              <p>{{ product.description }}</p>
 
+            </div>
+            <div class="rating-price">
+              <div class="remove"
+                   (click)="shoppingCard.removeFromShoppingCard(product)">🗑️
+              </div>
+              <div>{{ product.rating.rate }} / 5 ⭐</div>
+              <div class="price">{{ product.price }}€</div>
+            </div>
           </div>
-          <div class="rating-price">
-            <div>{{ product.rating.rate }} / 5 ⭐</div>
-            <div class="price">{{ product.price }}€</div>
-          </div>
-        </div>
-      }
+        }
+      </div>
     </div>
-  </div>
-  <div class="total-price">Total: {{ $totalPrice().toFixed(2) }} €</div>
-  <div class="button">Proceed</div>
+
+    <div class="total-price">Total: {{ shoppingCard.totalPrice().toFixed(2) }} €</div>
+    <div class="button">Proceed</div>
+  } @else {
+    <div class="empty-list">No products where selected!</div>
+  }
 </main>

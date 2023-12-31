@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { ProductsStore } from '../products.store';
+import { ShoppingCardStore } from '../shopping-card.store';
 
 @Component({
     selector: 'shopping-card',
@@ -12,9 +12,9 @@ import { ProductsStore } from '../products.store';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ShoppingCardComponent {
-    $products = inject(ProductsStore).filteredProducts;
+    shoppingCard = inject(ShoppingCardStore);
 
-    $totalPrice = computed(() => this.$products().reduce((acc, cur) => acc + cur.price, 0));
+    $products = this.shoppingCard.selectedProducts;
 
     router = inject(Router);
 

@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ShoppingCardStore } from '../shopping-card.store';
 
 @Component({
     selector: 'app-bar',
@@ -13,6 +14,7 @@ import { Router } from '@angular/router';
 })
 export class AppBarComponent {
     router = inject(Router);
+    shoppingCard = inject(ShoppingCardStore);
 
     showShoppingCard() {
         this.router.navigateByUrl('/shopping-card');

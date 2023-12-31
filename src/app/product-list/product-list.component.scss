@@ -40,6 +40,18 @@ main {
       justify-content: flex-end;
     }
 
+    .added-message {
+      position: absolute;
+      width: 100%;
+      top: -5px;
+      left: 0;
+      color: white;
+      text-align: center;
+      opacity: 0;
+      animation: blinker 2s ease-in-out;
+      background-color: #b92bd1;
+    }
+
     .purchase-button {
       font-size: 24px;
       display: flex;
@@ -101,5 +113,19 @@ main {
         }
       }
     }
+  }
+}
+
+@keyframes blinker {
+  25% {
+    opacity: 1;
+  }
+
+  75% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
   }
 }

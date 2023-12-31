@@ -4,9 +4,30 @@ import { patchState, signalStore, type, withComputed, withHooks, withMethods, wi
 import { setAllEntities, withEntities } from '@ngrx/signals/entities';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { distinctUntilChanged, switchMap, tap } from 'rxjs';
-import { ALL_CATEGORY, filterProducts, Product, ProductFilters, ProductFilterState } from './definitions';
+import { Product } from './model';
 import { ProductService } from './product.service';
 
+export const ALL_CATEGORY = 'All';
+
+//// TYPES
+export interface ProductFilters {
+    category: string;
+    stars: number;
+}
+
+export interface ProductFilterState {
+    filter: ProductFilters;
+}
+
+//// UTILS
+
+export function filterProducts(products: Array<Product>, filter: ProductFilters) {
+    return products
+        .filter(p => filter.category === ALL_CATEGORY || p.category === filter.category) // By category
+        .filter(p => filter.stars === 0 || p.rating.rate > filter.stars); // By stars
+}
+
+//// STORE
 export const ProductsStore = signalStore(
     { providedIn: 'root' },
 

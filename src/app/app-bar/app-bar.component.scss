@@ -30,3 +30,18 @@
     }
   }
 }
+
+.badge {
+  position: absolute;
+  right: 0;
+  bottom: 27px;
+  background-color: #e09dde;
+  font-size: small;
+  border-radius: 50%;
+  width: 16px;
+  display: flex;
+  right: 36px;
+  height: 16px;
+  align-items: center;
+  justify-content: center;
+}

@@ -7,6 +7,11 @@
         <div class="card"
              [class.selected]="product.id === $selectedProductId()"
              (click)="showProduct(product)">
+
+          @if (shoppingCard.lastAdded()?.id === product.id) {
+            <h3 class="added-message">Added to Shopping card</h3>
+          }
+
           @if (product.id === $selectedProductId()) {
             <div class="close"
                  (click)="hideProduct($event)">❌
