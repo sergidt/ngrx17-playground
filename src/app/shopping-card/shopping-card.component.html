@@ -1,9 +1,11 @@
 <main>
+  <div class="button"
+       (click)="goToProductList()">Continue Shopping
+  </div>
   <div class="product-list">
     <div class="list">
       @for (product of $products(); track product.id) {
-        <div class="item"
-             (click)="showProduct(product)">
+        <div class="item">
           <div class="image">
             <img [src]="product.image">
           </div>
@@ -12,16 +14,16 @@
                [title]="product.title">{{ product.title }}</p>
 
             <p>{{ product.description }}</p>
-            <div class="horizontal space-between">
-              <div class="rating">{{ product.rating.rate }} / 5 ⭐</div>
-              <div class="price">{{ product.price }}€</div>
-            </div>
-            @if (product.id === $selectedProductId()) {
-              <div class="description">{{ product.description }}</div>
-            }
+
+          </div>
+          <div class="rating-price">
+            <div>{{ product.rating.rate }} / 5 ⭐</div>
+            <div class="price">{{ product.price }}€</div>
           </div>
         </div>
       }
     </div>
   </div>
+  <div class="total-price">Total: {{ $totalPrice().toFixed(2) }} €</div>
+  <div class="button">Proceed</div>
 </main>

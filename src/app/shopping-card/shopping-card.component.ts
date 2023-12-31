@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
-import { Product } from '../definitions';
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { ProductsStore } from '../products.store';
 
 @Component({
@@ -11,27 +11,15 @@ import { ProductsStore } from '../products.store';
     styleUrl: './shopping-card.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ShoppingCardComponent implements OnInit {
-    ngOnInit() {
-        console.log(1111);
-    }
-
+export class ShoppingCardComponent {
     $products = inject(ProductsStore).filteredProducts;
 
-    $selectedProductId = signal(-1);
+    $totalPrice = computed(() => this.$products().reduce((acc, cur) => acc + cur.price, 0));
 
-    showProduct(product: Product) {
-        this.$selectedProductId.set(product.id);
-    }
+    router = inject(Router);
 
-    hideProduct(event: Event) {
-        event.stopPropagation();
-        this.$selectedProductId.set(-1);
-    }
-
-    addToShoppingCard(event: MouseEvent, product: Product) {
-        event.stopPropagation();
-
+    goToProductList() {
+        this.router.navigateByUrl('/product-list');
     }
 }
 

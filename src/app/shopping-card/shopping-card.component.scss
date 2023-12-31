@@ -10,6 +10,23 @@ main {
   width: 100%;
 }
 
+.button {
+  padding: 1rem;
+  background: rgba(128, 0, 128, .1803921569);
+  border-radius: 10px;
+  min-width: 120px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.total-price {
+  font-size: 1.5em;
+  min-width: 180px;
+  display: flex;
+  align-items: center;
+  height: 50px;
+}
+
 .product-list {
   display: flex;
   flex-direction: column;
@@ -60,6 +77,8 @@ main {
     }
 
     .content {
+      flex: 1;
+
       .title {
         font-weight: bold;
         font-size: 1rem;
@@ -72,6 +91,18 @@ main {
       .description {
         text-align: justify;
         margin-top: 1rem;
+      }
+    }
+
+    .rating-price {
+      display: flex;
+      flex-direction: column;
+      min-width: 100px;
+      align-items: center;
+      justify-content: space-evenly;
+
+      .price {
+        font-size: 1.5em;
       }
     }
   }

@@ -12,4 +12,5 @@ import { ProductListComponent } from './product-list/product-list.component';
     styleUrl: './app.component.scss'
 })
 export class AppComponent {
+
 }
