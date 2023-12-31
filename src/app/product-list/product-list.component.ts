@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
-import { Product } from '../model';
+import { Product } from '../definitions';
 import { ProductsStore } from '../products.store';
 import { FiltersComponent } from './filters/filters.component';
 
@@ -13,7 +13,7 @@ import { FiltersComponent } from './filters/filters.component';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductListComponent {
-    $products = inject(ProductsStore).productEntities;
+    $products = inject(ProductsStore).filteredProducts;
 
     $selectedProductId = signal(-1);
 

@@ -14,4 +14,5 @@ import { ProductsStore } from '../../products.store';
 export class FiltersComponent {
     productsStore = inject(ProductsStore);
     $categories: Signal<Array<string>> = this.productsStore.categories;
+
 }

@@ -3,20 +3,9 @@ import { computed, inject } from '@angular/core';
 import { patchState, signalStore, type, withComputed, withHooks, withMethods, withState } from '@ngrx/signals';
 import { setAllEntities, withEntities } from '@ngrx/signals/entities';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
-import { switchMap, tap } from 'rxjs';
-import { Product } from './model';
-import { ProductService } from './services/product.service';
-
-export const ALL_CATEGORY = 'All';
-
-export interface ProductFilters {
-    category: string;
-    stars: number;
-}
-
-export interface ProductFilterState {
-    filter: ProductFilters;
-}
+import { distinctUntilChanged, switchMap, tap } from 'rxjs';
+import { ALL_CATEGORY, filterProducts, Product, ProductFilters, ProductFilterState } from './definitions';
+import { ProductService } from './product.service';
 
 export const ProductsStore = signalStore(
     { providedIn: 'root' },
@@ -56,7 +45,7 @@ export const ProductsStore = signalStore(
 
             filterProducts: rxMethod<ProductFilters>(filter$ => filter$
                 .pipe(
-                    tap(() => console.log(111111)),
+                    distinctUntilChanged(),
                     switchMap((filter: ProductFilters) => service.getProductsByFilter(filter)),
                     tap(products => patchState(store, setAllEntities(products, { collection: 'product' })))
                 )
@@ -66,15 +55,12 @@ export const ProductsStore = signalStore(
 
     withComputed(({ productEntities, filter }) => ({
         categories: computed(() => [ALL_CATEGORY].concat(Array.from(new Set(productEntities().flatMap((p: Product) => p.category))))),
-        appliedFilters: computed(() => {
-            console.log(filter());
-            return filter();
-        })
+        filteredProducts: computed(() => filterProducts(productEntities(), filter()))
     })),
 
     withHooks({
-        onInit({ appliedFilters, filterProducts }) {
-            filterProducts(appliedFilters());
+        onInit({ filter, filterProducts }) {
+            filterProducts(filter());
         }
     })
 );

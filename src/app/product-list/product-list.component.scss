@@ -1,5 +1,9 @@
 :host {
   display: flex;
+  top: 250px;
+  bottom: 0;
+  height: 100%;
+  position: absolute;
 }
 
 main {
@@ -9,7 +13,7 @@ main {
 .product-list {
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  max-height: 100vh;
 }
 
 .list {
