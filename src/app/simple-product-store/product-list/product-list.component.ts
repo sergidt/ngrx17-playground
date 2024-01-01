@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
-import { Product } from '../model';
+import { EntityId } from '@ngrx/signals/entities';
+import { Product } from '../../model';
+import { ShoppingCardStore } from '../../shopping-card.store';
 import { ProductsStore } from '../products.store';
-import { ShoppingCardStore } from '../shopping-card.store';
 import { FiltersComponent } from './filters/filters.component';
 
 @Component({
@@ -19,7 +20,7 @@ export class ProductListComponent {
 
     shoppingCard = inject(ShoppingCardStore);
 
-    $selectedProductId = signal(-1);
+    $selectedProductId = signal<EntityId>(-1);
 
     showProduct(product: Product) {
         this.$selectedProductId.set(product.id);

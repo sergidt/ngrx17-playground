@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
-import { ProductListComponent } from './product-list/product-list.component';
 import { ShoppingCardComponent } from './shopping-card/shopping-card.component';
+import { ProductListComponent } from './simple-product-store/product-list/product-list.component';
 
 export const routes: Routes = [
     {

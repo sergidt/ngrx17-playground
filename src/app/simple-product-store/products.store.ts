@@ -4,10 +4,8 @@ import { patchState, signalStore, type, withComputed, withHooks, withMethods, wi
 import { setAllEntities, withEntities } from '@ngrx/signals/entities';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { distinctUntilChanged, switchMap, tap } from 'rxjs';
-import { Product } from './model';
+import { ALL_CATEGORY, Product } from '../model';
 import { ProductService } from './product.service';
-
-export const ALL_CATEGORY = 'All';
 
 //// TYPES
 export interface ProductFilters {

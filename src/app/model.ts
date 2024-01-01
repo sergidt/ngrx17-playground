@@ -1,5 +1,7 @@
+import { EntityId } from '@ngrx/signals/entities';
+
 export interface Product {
-    id: number;
+    id: EntityId;
     title: string;
     category: string;
     description: string;
@@ -10,3 +12,6 @@ export interface Product {
         rate: number;
     };
 }
+
+export const ALL_CATEGORY = 'All';
+
