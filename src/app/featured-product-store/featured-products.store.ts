@@ -1,18 +1,11 @@
-import { withDevtools } from '@angular-architects/ngrx-toolkit';
-import { computed, inject } from '@angular/core';
-import { patchState, signalStore, type, withComputed, withHooks, withMethods, withState } from '@ngrx/signals';
-import { setAllEntities, withEntities } from '@ngrx/signals/entities';
-import { rxMethod } from '@ngrx/signals/rxjs-interop';
-import { distinctUntilChanged, switchMap, tap } from 'rxjs';
-import { ALL_CATEGORY, Product, ProductFilters, ProductFilterState } from '../model';
+import { withDataService, withDevtools } from '@angular-architects/ngrx-toolkit';
+import { inject } from '@angular/core';
+import { patchState, signalStore, type, withHooks, withMethods, withState } from '@ngrx/signals';
+import { withEntities } from '@ngrx/signals/entities';
+import { ALL_CATEGORY, Product } from '../model';
+import { ProductDataService } from './product-data.service';
 
 //// UTILS
-
-export function filterProducts(products: Array<Product>, filter: ProductFilters) {
-    return products
-        .filter(p => filter.category === ALL_CATEGORY || p.category === filter.category) // By category
-        .filter(p => filter.stars === 0 || p.rating.rate > filter.stars); // By stars
-}
 
 //// STORE
 export const FeaturedProductsStore = signalStore(
@@ -20,55 +13,41 @@ export const FeaturedProductsStore = signalStore(
 
     withDevtools('products'),
 
+    withState<{ categories: string[] }>({ categories: [] }),
+
     withEntities({ entity: type<Product>(), collection: 'product' }),
 
-    withState<ProductFilterState>({
-        filter: {
-            category: ALL_CATEGORY,
-            stars: 0
-        }
+    withDataService({
+        dataServiceType: ProductDataService,
+        filter: { category: ALL_CATEGORY, stars: 0 },
+        collection: 'product'
     }),
 
-    withMethods((store, service = inject(ProductService)) => {
+    withMethods(store => {
+        const service = inject(ProductDataService);
         return {
-            applyCategoryFilter(category: string) {
-                patchState(store, {
-                    filter: {
-                        stars: store.filter().stars,
-                        category
-                    }
-                });
+            isFilterCategorySelected: (category: string) => store.productFilter().category === category,
+
+            setFilterStars(stars: number) {
+                store.updateProductFilter({ stars, category: store.productFilter.category() });
+                store.loadProductEntities();
             },
 
-            applyStarsFilter(stars: number) {
-                patchState(store, {
-                    filter: {
-                        stars,
-                        category: store.filter().category
-                    }
-                });
+            setFilterCategory(category: string) {
+                store.updateProductFilter({ stars: store.productFilter.stars(), category });
+                store.loadProductEntities();
             },
 
-            isFilterCategorySelected: (category: string) => store.filter().category === category,
-
-            filterProducts: rxMethod<ProductFilters>(filter$ => filter$
-                .pipe(
-                    distinctUntilChanged(),
-                    switchMap((filter: ProductFilters) => service.getProductsByFilter(filter)),
-                    tap(products => patchState(store, setAllEntities(products, { collection: 'product' })))
-                )
-            )
+            async loadProductCategories() {
+                patchState(store, { categories: await service.getProductCategories() });
+            }
         };
     }),
 
-    withComputed(({ productEntities, filter }) => ({
-        categories: computed(() => [ALL_CATEGORY].concat(Array.from(new Set(productEntities().flatMap((p: Product) => p.category))))),
-        filteredProducts: computed(() => filterProducts(productEntities(), filter()))
-    })),
-
     withHooks({
-        onInit({ filter, filterProducts }) {
-            filterProducts(filter());
+        onInit({ loadProductEntities, loadProductCategories }) {
+            loadProductEntities();
+            loadProductCategories();
         }
     })
 );

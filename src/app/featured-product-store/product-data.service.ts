@@ -2,14 +2,19 @@ import { DataService } from '@angular-architects/ngrx-toolkit';
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { EntityId } from '@ngrx/signals/entities';
-import { firstValueFrom } from 'rxjs';
-import { Product } from '../model';
+import { firstValueFrom, map } from 'rxjs';
+import { ALL_CATEGORY, Product } from '../model';
 
 export type Filter = Record<string, unknown>;
 export type Entity = { id: EntityId };
 
+export interface ProductFilter extends Filter {
+    category: string,
+    stars: number
+}
+
 @Injectable({ providedIn: 'root' })
-export class ProductDataService implements DataService<Product, Filter> {
+export class ProductDataService implements DataService<Product, ProductFilter> {
     private _http = inject(HttpClient);
 
     async loadById(id: EntityId): Promise<Product> {
@@ -31,8 +36,21 @@ export class ProductDataService implements DataService<Product, Filter> {
         return Promise.resolve();
     }
 
-    async load(filter: Filter): Promise<Product[]> {
-        return firstValueFrom(this._http.get<Array<Product>>('https://fakestoreapi.com/products'));
+    load(filter: ProductFilter): Promise<Product[]> {
+        return firstValueFrom(this._http.get<Array<Product>>('https://fakestoreapi.com/products')
+                                  .pipe(map(products => filterProducts(products, filter))));
     }
+
+    async getProductCategories(): Promise<Array<string>> {
+        const products = await this.load({ category: ALL_CATEGORY, stars: 0 });
+        return [ALL_CATEGORY].concat(Array.from(new Set(products.flatMap((p: Product) => p.category))));
+
+    }
+}
+
+function filterProducts(products: Array<Product>, filter: ProductFilter) {
+    return products
+        .filter(p => filter.category === ALL_CATEGORY || p.category === filter.category) // By category
+        .filter(p => filter.stars === 0 || p.rating.rate > filter.stars); // By stars
 }
 
